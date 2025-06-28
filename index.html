@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> DL Script India</title></title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a73e8" />
+  
+  <style>
+  :root {
+    --bg: #0e1015;
+    --card: #1a1d23;
+    --accent: #00bcd4;
+    --accent-hover: #0097a7;
+    --text: #e0e0e0;
+    --muted: #9ca3af;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--card);
+    color: var(--accent);
+    text-align: center;
+    padding: 1.2rem;
+    font-size: 1.7rem;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .container {
+    flex: 1;
+    max-width: 720px;
+    margin: 2rem auto;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  select, textarea, input[type="text"] {
+    width: 100%;
+    margin-top: 0.3rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: none;
+    background: #0e1117;
+    color: var(--text);
+    font-size: 1rem;
+  }
+  textarea {
+    resize: vertical;
+  }
+  button {
+    width: 100%;
+    margin-top: 1.2rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: var(--accent-hover);
+  }
+  .copy-btn {
+    background: #4caf50;
+    margin-top: 0.5rem;
+  }
+  .copy-btn:hover {
+    background: #388e3c;
+  }
+  .note {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+  #generatedCode {
+    margin-top: 1rem;
+    height: 230px;
+    background: #0e1117;
+    border: 1px solid #2d2f36;
+    border-radius: 6px;
+    font-family: monospace;
+    padding: 0.75rem;
+  }
+  footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>🚀 DL Script India </header>
+
+<div class="container">
+  <label for="folderSelector">📁 Main Folder:</label>
+  <select id="folderSelector">
+    <option value="HindiMovie">Hindi Movie </option>
+    <option value="BanglaMovie">Bangla Movie </option>
+    <option value="Series">Web/Tv Series </option>
+    <option value="Natok">Natok </option>
+    <option value="DramaSeries">Drama Series </option>
+    <option value="KolkataBangla">KolKata Bangla </option>
+    <option value="HollywoodMovie">Hollywood Movie </option>
+    <option value="Anime">Anime </option>
+    <option value="18+">18+ All  </option>
+  </select>
+
+  <label for="subFolder">📝 Sub-Folder (manual):</label>
+  <input type="text" id="subFolder" placeholder="Enter sub-folder name">
+
+  <label for="videoLinks">🔗 Video Links (one per line):</label>
+  <textarea id="videoLinks" placeholder="http://example.com/video1.mp4"></textarea>
+
+  <label for="fileNames">📝 File Names (one per line):</label>
+  <textarea id="fileNames" placeholder="video1.mp4"></textarea>
+  <div class="note">⚠️ Ensure links and file names count match!</div>
+
+  <button onclick="generateScript()">Generate Python Script</button>
+
+  <label for="generatedCode">🧾 Generated Code:</label>
+  <textarea id="generatedCode" readonly></textarea>
+  <button class="copy-btn" onclick="copyGeneratedCode()">Copy Code</button>
+</div>
+
+<footer>&copy; 2025 Movie Flix 9 | Coded with ❤️</footer>
+
+<script>
+function generateScript() {
+  const links = document.getElementById('videoLinks').value.trim().split('\n').map(x => x.trim()).filter(x => x);
+  const names = document.getElementById('fileNames').value.trim().split('\n').map(x => x.trim()).filter(x => x);
+  const mainFolder = document.getElementById('folderSelector').value;
+  const subFolder = document.getElementById('subFolder').value.trim();
+
+  if (!subFolder) {
+    alert('⚠️ Please enter the sub-folder name.');
+    return;
+  }
+  if (links.length !== names.length) {
+    alert('⚠️ Number of links and file names must match!');
+    return;
+  }
+
+  const path = `/content/drive/MyDrive/69movies/${mainFolder}/${subFolder}`;
+  let script = `# 🔗 Mount Google Drive\n`;
+  script += `from google.colab import drive\ndrive.mount('/content/drive')\n\n`;
+  script += `# 📁 Create save folder\n`;
+  script += `import os\n`;
+  script += `save_folder = f"${path}"\n`;
+  script += `os.makedirs(save_folder, exist_ok=True)\n\n`;
+  script += `# 📥 Video Links & File Names\n`;
+  script += `video_links = {\n`;
+  links.forEach((link, i) => {
+    script += `    "${names[i]}": "${link}",\n`;
+  });
+  script += `}\n\n`;
+  script += `# 🚀 Download api-mabedin854-9026xys2\n`;
+  script += `for filename, url in video_links.items():\n`;
+  script += `    save_path = os.path.join(save_folder, filename)\n`;
+  script += `    print(f"⬇️ Downloading: {filename} ...")\n`;
+  script += `    !wget -c -O "$save_path" "$url"\n`;
+  script += `print("🎉 69movies.xyz All downloads complete!")\n`;
+
+  document.getElementById('generatedCode').value = script;
+}
+
+function copyGeneratedCode() {
+  const codeArea = document.getElementById('generatedCode');
+  codeArea.select();
+  document.execCommand('copy');
+  alert('✅ Code copied!');
+}
+</script>
+
+  
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(() => console.log("✅ Service Worker Registered"))
+  .catch(error => console.error("❌ Registration failed:", error));
+}
+</script>  
+</body>
+</html>
